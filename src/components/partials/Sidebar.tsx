@@ -19,12 +19,14 @@ const Sidebar = () => {
   const setShowSidebar = useSetRecoilState(showSidebarState);
   const { logout, user } = useAuth();
   const { pathname } = useLocation();
-  const { adminRoutes, lecturerRoutes } = routers;
+  const { adminRoutes, lecturerRoutes, studentRoutes } = routers;
   const routes: Route[] =
     user?.role === 'admin'
       ? adminRoutes
       : user?.role === 'lecturer'
       ? lecturerRoutes
+      : user?.role === 'student'
+      ? studentRoutes
       : [];
 
   /**

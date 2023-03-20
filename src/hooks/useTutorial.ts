@@ -1,9 +1,10 @@
 import { tutorialAtoms } from '@/atoms';
 import { useSetRecoilState } from 'recoil';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { QN, TutorialData } from '../types/typings.t';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { APITutorial, QN, TutorialData } from '../types/typings.t';
 import { TutorialAPI } from '@/api';
 import { Toasts } from '@/components';
+import useAuth from './useAuth';
 
 const useTutorial = () => {
   /**
@@ -28,10 +29,23 @@ const useTutorial = () => {
   const setIsEditingTutorial = useSetRecoilState(isEditingTutorialState);
   const setGlobalTutorialQn = useSetRecoilState(globalTutorialQNState);
   const setIsEditingTutorialQn = useSetRecoilState(isEditingTutorialQnState);
+  const { user } = useAuth();
 
   /**
    * component functions
    */
+  const { data: tutorials, isLoading: isFetchingTutorials } = useQuery({
+    queryKey: ['tutorials', user?.role],
+    queryFn: async ({ queryKey }) => {
+      const [_, role] = queryKey;
+
+      if (role === 'student') {
+        return (await TutorialAPI.getTutorials()) as APITutorial[];
+      }
+
+      return [];
+    },
+  });
 
   const {
     mutateAsync: createTutorialMutateAsync,
@@ -64,6 +78,21 @@ const useTutorial = () => {
       setIsEditingTutorial(false);
       setGlobalTutorial(null);
       setShowCreateOrEditTutorialWidget(false);
+      Toasts.successToast(data.message);
+    },
+  });
+
+  const {
+    mutateAsync: deleteTutorialMutateAsync,
+    isLoading: isDeletingTutorial,
+  } = useMutation({
+    mutationFn: (tutorialId: number) => {
+      return TutorialAPI.deleteTutorial(tutorialId);
+    },
+
+    onSuccess: async (data) => {
+      queryClient.invalidateQueries({ queryKey: ['lecturerProfile'] });
+      setGlobalTutorial(null);
       Toasts.successToast(data.message);
     },
   });
@@ -109,6 +138,10 @@ const useTutorial = () => {
     isCreatingTutorialQn,
     updateTutorialQnMutateAsync,
     isUpdatingTutorialQn,
+    isDeletingTutorial,
+    deleteTutorialMutateAsync,
+    isFetchingTutorials,
+    tutorials,
   };
 };
 

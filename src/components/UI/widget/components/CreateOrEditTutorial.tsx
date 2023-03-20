@@ -11,7 +11,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAuth, useSchool, useTutorial } from '@/hooks';
 import { SelectionOption, TutorialData } from '../../../../types/typings.t';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
 import {
   T_Image_1,
@@ -52,7 +52,6 @@ const CreateOrEditTutorial = () => {
   });
 
   const { lecturerProfile, user } = useAuth();
-  const {} = appUtils;
   const { generateUnitOptions } = useSchool();
   const images = [
     T_Image_1,
@@ -93,7 +92,19 @@ const CreateOrEditTutorial = () => {
     }
 
     isEditingTutorial
-      ? ''
+      ? updateTutorialMutateAsync({
+          tutorialId: globalTutorial?.id!,
+          tutorialUpdateData: {
+            description,
+            icon: globalTutorial?.attributes?.icon!,
+            numberOfQuestions,
+            numberOfValidDays,
+            unit_id: selectedUnit.value,
+            numberOfPointsForEachQuestion,
+            timeToTakeInTutorial,
+            bgColor: globalTutorial?.attributes?.bgColor!,
+          },
+        })
       : createTutorialMutateAsync({
           description,
           icon: appUtils.getRandom(images),
@@ -104,10 +115,27 @@ const CreateOrEditTutorial = () => {
           timeToTakeInTutorial,
           lecturer_id: user?.id!,
           bgColor: appUtils.getRandom(bgColors),
+          code: appUtils.generateTutorialCode(),
         });
-
-    console.log('selected unit', selectedUnit);
   };
+
+  useEffect(() => {
+    if (isEditingTutorial && globalTutorial) {
+      reset({
+        description: globalTutorial?.attributes?.description,
+        numberOfQuestions: globalTutorial?.attributes?.numberOfQuestions,
+        numberOfPointsForEachQuestion:
+          globalTutorial?.attributes?.numberOfPointsForEachQuestion,
+        numberOfValidDays: globalTutorial?.attributes?.numberOfValidDays,
+        timeToTakeInTutorial: globalTutorial?.attributes?.timeToTakeInTutorial,
+      });
+
+      setSelectedUnit({
+        name: globalTutorial?.relationships?.unit?.attributes?.name,
+        value: globalTutorial?.relationships?.unit?.id,
+      });
+    }
+  }, [reset, isEditingTutorial, globalTutorial]);
 
   return (
     <section>

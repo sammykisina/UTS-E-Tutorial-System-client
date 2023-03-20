@@ -55,6 +55,35 @@ const useLecturer = () => {
     ],
     []
   );
+
+  const tutorialRankingColumns = useMemo<
+    ColumnDef<{
+      regNumber: string;
+      name: string;
+      points: number;
+      attemptedAt: string;
+    }>[]
+  >(
+    () => [
+      {
+        header: 'Reg Number',
+        accessorKey: 'regNumber',
+      },
+      {
+        header: 'Name',
+        accessorKey: 'name',
+      },
+      {
+        header: 'Points',
+        accessorKey: 'points',
+      },
+      {
+        header: 'Attempted At',
+        accessorKey: 'attemptedAt',
+      },
+    ],
+    []
+  );
   const {
     globalLecturerState,
     isEditingLecturerState,
@@ -210,6 +239,7 @@ const useLecturer = () => {
     deleteLecturerMutateAsync,
     modifyLecturersDataForLecturersTable,
     lecturerColumns,
+    tutorialRankingColumns,
   };
 };
 

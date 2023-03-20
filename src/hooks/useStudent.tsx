@@ -1,13 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/hooks';
-import { APIStudent, StudentData } from '../types/typings.t';
+import { APIResult, APIStudent, Result, StudentData } from '../types/typings.t';
 import { StudentAPI } from '@/api';
 import { FC, useMemo } from 'react';
 import { ColumnDef, Row } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { Button, DeleteStudent, Toasts } from '@/components';
-import { studentAtoms } from '@/atoms';
+import { studentAtoms, tutorialAtoms } from '@/atoms';
 import { useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 
 const useStudent = () => {
   /**
@@ -15,6 +16,7 @@ const useStudent = () => {
    */
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const studentColumns = useMemo<
     ColumnDef<{
       id: number;
@@ -53,6 +55,45 @@ const useStudent = () => {
     ],
     []
   );
+
+  const studentResultsColumns = useMemo<
+    ColumnDef<{
+      points: number;
+      unit: string;
+      doneIn: string;
+      tutorialCode: string;
+    }>[]
+  >(
+    () => [
+      {
+        header: 'Tutorial Code',
+        accessorKey: 'tutorialCode',
+        cell: ({ row }) => (
+          <span className='rounded-full bg-amber-400/10 w-fit px-3 py-1 text-xs flex items-center justify-center leading-loose'>
+            {row.original?.tutorialCode}
+          </span>
+        ),
+      },
+      {
+        header: 'Points',
+        accessorKey: 'points',
+      },
+      {
+        header: 'Unit',
+        accessorKey: 'unit',
+        cell: ({ row }) => (
+          <span className='rounded-full bg-callToAction/10 w-fit px-3 py-1 text-xs flex items-center justify-center leading-loose'>
+            {row.original?.unit}
+          </span>
+        ),
+      },
+      {
+        header: 'Done In',
+        accessorKey: 'doneIn',
+      },
+    ],
+    []
+  );
   const {
     showCreateOrEditStudentWidgetState,
     globalStudentState,
@@ -63,6 +104,14 @@ const useStudent = () => {
   );
   const setGlobalStudent = useSetRecoilState(globalStudentState);
   const setIsEditingStudent = useSetRecoilState(isEditingStudentState);
+
+  const { globalTutorialState } = tutorialAtoms;
+  const setGlobalTutorial = useSetRecoilState(globalTutorialState);
+
+  const { showTakeTutorialModalState } = studentAtoms;
+  const setShowTakeTutorialModal = useSetRecoilState(
+    showTakeTutorialModalState
+  );
 
   /**
    * component functions
@@ -132,6 +181,46 @@ const useStudent = () => {
     return modifiedStudentsData;
   };
 
+  const generateAllDoneTutorialIds = (results: APIResult[] | undefined) => {
+    const allDoneTutorialIds = new Set();
+
+    results?.map((results) => {
+      allDoneTutorialIds.add(results?.attributes?.tutorial_id!);
+    });
+
+    return [...allDoneTutorialIds.values()] as number[];
+  };
+
+  const modifyResultsDataForResultsTable = (
+    results: APIResult[] | undefined
+  ) => {
+    let modifiedResultsData = [] as unknown[];
+
+    results?.map((result) => {
+      modifiedResultsData = [
+        ...modifiedResultsData,
+        {
+          tutorialCode: result?.relationships?.tutorial?.attributes?.code,
+          points: result?.attributes?.points,
+          regNumber: result?.relationships?.student?.attributes?.regNumber,
+          name: result?.relationships?.student?.attributes?.name,
+          unit: result?.relationships?.tutorial?.relationships?.unit?.attributes
+            ?.name,
+          doneIn: format(
+            new Date(result?.attributes?.doneIn),
+            'EE, MMM d, yyy'
+          ),
+          attemptedAt: format(
+            new Date(result?.attributes?.doneIn),
+            'EE, MMM d, yyy'
+          ),
+        },
+      ];
+    });
+
+    return modifiedResultsData;
+  };
+
   const {
     mutateAsync: createStudentMutateAsync,
     isLoading: isCreatingStudent,
@@ -143,6 +232,32 @@ const useStudent = () => {
     onSuccess: async (data) => {
       queryClient.invalidateQueries({ queryKey: ['students'] });
       setShowCreateOrEditStudentWidget(false);
+      Toasts.successToast(data.message);
+    },
+  });
+
+  const {
+    mutateAsync: createStudentTutorialResultsMutateAsync,
+    isLoading: isCreatingStudentTutorialResult,
+  } = useMutation({
+    mutationFn: (studentTutorialResultData: Result) => {
+      return StudentAPI.createTutorialResult(studentTutorialResultData);
+    },
+
+    onSuccess: async (data) => {
+      queryClient.invalidateQueries({ queryKey: ['studentProfile'] });
+
+      setGlobalTutorial(null);
+      localStorage.removeItem('showTakeTutorialModalState');
+      localStorage.removeItem('globalTutorial');
+      localStorage.removeItem('results');
+      localStorage.removeItem('currentQuestionIndex');
+      localStorage.removeItem('chosenAnswer');
+
+      setShowTakeTutorialModal(false);
+      setShowCreateOrEditStudentWidget(false);
+
+      navigate('/results');
       Toasts.successToast(data.message);
     },
   });
@@ -190,6 +305,11 @@ const useStudent = () => {
     isUpdatingStudent,
     isDeletingStudent,
     deleteStudentMutateAsync,
+    createStudentTutorialResultsMutateAsync,
+    isCreatingStudentTutorialResult,
+    studentResultsColumns,
+    modifyResultsDataForResultsTable,
+    generateAllDoneTutorialIds,
   };
 };
 

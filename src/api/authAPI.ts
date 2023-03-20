@@ -5,8 +5,10 @@ const AuthAPI = {
   login: async (data: LoginData) => API.post('/auth/login', data),
   getLecturerProfile: async (lecturerId: number) =>
     API.get(
-      `/lecturer/${lecturerId}/profile?include=tutorials.unit,tutorials.questions.answers`
+      `/lecturer/${lecturerId}/profile?include=tutorials.unit,tutorials.questions.answers,tutorials.results.student`
     ),
+  getStudentProfile: async (studentId: number) =>
+    API.get(`/student/${studentId}/profile`),
 };
 
 export default AuthAPI;

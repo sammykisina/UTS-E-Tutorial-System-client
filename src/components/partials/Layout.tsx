@@ -1,8 +1,15 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { Toaster } from 'react-hot-toast';
-import { appAtoms, tutorialAtoms } from '@/atoms';
+import { appAtoms, studentAtoms, tutorialAtoms } from '@/atoms';
 import { AppRouters } from '@/routers';
-import { Modal, Sidebar, TopHeader, TutorialQns, Widget } from '@/components';
+import {
+  Modal,
+  Sidebar,
+  TakeTutorial,
+  TopHeader,
+  TutorialQns,
+  Widget,
+} from '@/components';
 import { useAuth } from '@/hooks';
 import { Login } from '@/pages';
 
@@ -10,13 +17,16 @@ const Layout = () => {
   /**
    * component states
    */
+  const { user } = useAuth();
   const { isSidebarOpenState, showSidebarState } = appAtoms;
   const showSidebar = useRecoilValue(showSidebarState);
   const isSidebarOpen = useRecoilValue(isSidebarOpenState);
-  const { user } = useAuth();
 
   const { showTutorialQnsWidgetState } = tutorialAtoms;
   const showTutorialQnsWidget = useRecoilValue(showTutorialQnsWidgetState);
+
+  const { showTakeTutorialModalState } = studentAtoms;
+  const showTakeTutorialModal = useRecoilValue(showTakeTutorialModalState);
 
   if (!user) return <Login />;
 
@@ -52,6 +62,12 @@ const Layout = () => {
         widgetState={showTutorialQnsWidget}
         component={<TutorialQns />}
         widgetStyles='w-[90vw] h-fit'
+      />
+
+      <Modal
+        component={<TakeTutorial />}
+        modalState={showTakeTutorialModal}
+        modalStyles='w-[90vw] h-fit'
       />
     </section>
   );

@@ -34,7 +34,18 @@ export type APIStudent = {
   };
   relationships: {
     course: APICourse;
+    results: APIResult[];
   };
+};
+
+export type APIResult = {
+  id: number;
+  attributes: {
+    points: number;
+    doneIn: string;
+    tutorial_id: number;
+  };
+  relationships: { tutorial: APITutorial; student: APIStudent };
 };
 
 export type APILecturer = {
@@ -56,16 +67,19 @@ export type APITutorial = {
   attributes: {
     description: string;
     icon: string;
-    numberOfPointsForEachQuestion: number;
-    numberOfQuestions: number;
+    numberOfPointsForEachQuestion: string;
+    numberOfQuestions: string;
     published: boolean;
-    timeToTakeInTutorial: number;
+    timeToTakeInTutorial: string;
     bgColor: string;
     dueDate: string;
+    numberOfValidDays: string;
+    code: string;
   };
   relationships: {
     unit: APIUnit;
     questions: APIQuestion[];
+    results: APIResult[];
   };
 };
 
@@ -94,10 +108,13 @@ export type APICourse = {
     name: string;
     createdAt: string;
   };
+  relationships: {
+    units: APIUnit[];
+  };
 };
 
 export type APIUnit = {
-  id: number;
+  id: string;
   attributes: {
     name: string;
     createdAt: string;
@@ -148,10 +165,11 @@ export type TutorialData = {
   icon: string;
   numberOfQuestions: string;
   numberOfValidDays: string;
-  numberOfPointsForEachQuestion: number;
-  timeToTakeInTutorial: number;
+  numberOfPointsForEachQuestion: string;
+  timeToTakeInTutorial: string;
   bgColor: string;
-  lecturer_id: number;
+  lecturer_id?: number;
+  code?: string;
 };
 
 export type QN = {
@@ -162,4 +180,10 @@ export type QN = {
     identity: string;
     answer: string;
   }[];
+};
+
+export type Result = {
+  tutorial_id: number;
+  points: number;
+  student_id: number;
 };

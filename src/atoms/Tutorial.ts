@@ -28,7 +28,9 @@ const isEditingTutorialState = atom({
 
 const globalTutorialState = atom<APITutorial | null>({
   key: 'globalTutorialState',
-  default: null,
+  default: localStorage.getItem('globalTutorial')
+    ? JSON.parse(localStorage.getItem('globalTutorial')!)
+    : null,
 });
 
 const globalTutorialQNState = atom<null>({

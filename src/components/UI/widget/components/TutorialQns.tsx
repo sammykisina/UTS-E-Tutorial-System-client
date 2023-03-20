@@ -29,8 +29,6 @@ const TutorialQns = () => {
     setShowCreateOrEditTutorialQnWidget,
   ] = useRecoilState(showCreateOrEditTutorialQnWidgetState);
 
-  console.log('globalTutorial', globalTutorial?.relationships?.questions);
-
   /**
    * component functions
    */
@@ -40,7 +38,9 @@ const TutorialQns = () => {
   }) => {
     return (
       <section className='border p-2 rounded-[1rem]'>
-        <div className='bg-callToAction/10 icon p-4 flex justify-center items-center font-bold rounded-full text-textColor'>
+        <div
+          className={`icon p-4 flex justify-center items-center font-bold rounded-full text-textColor ${globalTutorial?.attributes?.bgColor}`}
+        >
           {questionIndex + 1}
         </div>
 
@@ -49,7 +49,7 @@ const TutorialQns = () => {
 
           <div className='ml-5 mt-2 flex flex-col gap-2'>
             {question?.relationships?.answers?.map((answer, answerIndex) => (
-              <div className='flex gap-2'>
+              <div key={answerIndex} className='flex gap-2'>
                 <div className='relative'>
                   <span>{answerIndex + 1}).</span>
                   <div
@@ -82,7 +82,9 @@ const TutorialQns = () => {
         {/* title */}
         <div className='flex items-center gap-3'>
           <Title title='QNS' />
-          <span className='rounded-full bg-callToAction/10 w-fit px-3 py-1 text-xs flex gap-2 items-center justify-center leading-loose text-textColor'>
+          <span
+            className={`rounded-full ${globalTutorial?.attributes?.bgColor} w-fit px-3 py-1 text-xs flex gap-2 items-center justify-center leading-loose text-textColor`}
+          >
             {' '}
             {globalTutorial?.relationships?.questions?.length} of{' '}
             {globalTutorial?.attributes?.numberOfQuestions}{' '}
@@ -91,7 +93,7 @@ const TutorialQns = () => {
 
         <div
           className={`${
-            globalTutorial?.relationships?.questions.length ===
+            globalTutorial?.relationships?.questions?.length ===
               globalTutorial?.attributes?.numberOfQuestions && 'hidden'
           }`}
         >

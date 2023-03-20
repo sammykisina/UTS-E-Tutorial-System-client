@@ -56,6 +56,7 @@ export { default as CreateOrEditTutorialQn } from './UI/widget/components/Create
 //  */
 export { default as ModalClose } from './UI/modal/ModalClose';
 export { default as ModalHeader } from './UI/modal/ModalHeader';
+export { default as TakeTutorial } from './UI/modal/components/TakeTutorial';
 
 /**
  * reusable
@@ -68,3 +69,4 @@ export { default as DeleteStudent } from './reusable/delete/DeleteStudent';
 export { default as DeleteCourse } from './reusable/delete/DeleteCourse';
 export { default as DeleteUnit } from './reusable/delete/DeleteUnit';
 export { default as DeleteLecturer } from './reusable/delete/DeleteLecturer';
+export { default as Tutorial } from './reusable/Tutorial';

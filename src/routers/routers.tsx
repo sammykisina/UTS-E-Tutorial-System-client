@@ -63,6 +63,27 @@ const lecturerRoutes = [
   },
 ];
 
-const routes = { adminRoutes, lecturerRoutes };
+const studentRoutes = [
+  {
+    name: 'Tutorials',
+    inactiveIcon: <HiOutlineBookmark className='icon' />,
+    activeIcon: <HiBookmark className='icon' />,
+    to: '/',
+  },
+  {
+    name: 'Results',
+    inactiveIcon: <HiOutlineDocumentArrowUp className='icon' />,
+    activeIcon: <HiDocumentArrowUp className='icon' />,
+    to: '/results',
+  },
+  {
+    name: 'Forum',
+    inactiveIcon: <HiOutlineUserGroup className='icon' />,
+    activeIcon: <HiUserGroup className='icon' />,
+    to: '/forum',
+  },
+];
+
+const routes = { adminRoutes, lecturerRoutes, studentRoutes };
 
 export default routes;

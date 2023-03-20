@@ -6,6 +6,15 @@ const showCreateOrEditStudentWidgetState = atom({
   default: false,
 });
 
+const showTakeTutorialModalState = atom({
+  key: 'showTakeTutorialModalState',
+  default: localStorage.getItem('showTakeTutorialModalState')
+    ? localStorage.getItem('showTakeTutorialModalState') === 'open'
+      ? true
+      : false
+    : false,
+});
+
 const isEditingStudentState = atom({
   key: 'isEditingStudentState',
   default: false,
@@ -20,6 +29,7 @@ const studentAtoms = {
   showCreateOrEditStudentWidgetState,
   isEditingStudentState,
   globalStudentState,
+  showTakeTutorialModalState,
 };
 
 export default studentAtoms;

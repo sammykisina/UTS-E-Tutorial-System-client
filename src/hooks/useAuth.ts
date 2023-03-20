@@ -4,7 +4,7 @@ import { AuthAPI } from '@/api';
 import Cookies from 'js-cookie';
 import { Toasts } from '@/components';
 import { useNavigate } from 'react-router-dom';
-import { APILecturer, LoginData, User } from '../types/typings.t';
+import { APILecturer, APIStudent, LoginData, User } from '../types/typings.t';
 
 const useAuth = () => {
   /**
@@ -46,6 +46,20 @@ const useAuth = () => {
       },
     });
 
+  const { data: studentProfile, isLoading: isFetchingStudentProfile } =
+    useQuery({
+      queryKey: ['studentProfile', user?.role],
+      queryFn: async ({ queryKey }) => {
+        const [_, role] = queryKey;
+
+        if (role === 'student') {
+          return (await AuthAPI.getStudentProfile(user?.id!)) as APIStudent;
+        }
+
+        return null;
+      },
+    });
+
   const logout = () => {
     Cookies.remove('token');
     Cookies.remove('user');
@@ -79,6 +93,8 @@ const useAuth = () => {
     logout,
     lecturerProfile,
     isFetchingLecturerProfile,
+    studentProfile,
+    isFetchingStudentProfile,
   };
 };
 

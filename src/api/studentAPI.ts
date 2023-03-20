@@ -1,4 +1,4 @@
-import { StudentData } from '../types/typings.t';
+import { Result, StudentData } from '../types/typings.t';
 import { API } from './api';
 
 const StudentAPI = {
@@ -12,6 +12,9 @@ const StudentAPI = {
   }) => API.patch(`/admin/students/${data.studentId}`, data.studentUpdateData),
   deleteStudent: async (studentId: number) =>
     API.delete(`/admin/students/${studentId}`),
+
+  createTutorialResult: async (studentTutorialResultData: Result) =>
+    API.post('/student/tutorials/results', studentTutorialResultData),
 };
 
 export default StudentAPI;

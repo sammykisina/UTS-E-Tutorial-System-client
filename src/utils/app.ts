@@ -22,6 +22,7 @@ const generateAvatar: (name: string) => string = (name) =>
 const appUtils = {
   getRandom,
   generateTutorialCode,
+  generateAvatar,
 };
 
 export default appUtils;

@@ -35,6 +35,7 @@ export type APIStudent = {
   relationships: {
     course: APICourse;
     results: APIResult[];
+    discussions: APIDiscussion[];
   };
 };
 
@@ -59,6 +60,7 @@ export type APILecturer = {
   relationships: {
     units: APIUnit[];
     tutorials: APITutorial[];
+    discussions: APIDiscussion[];
   };
 };
 
@@ -124,6 +126,31 @@ export type APIUnit = {
   };
 };
 
+export type APIDiscussion = {
+  id: number;
+  attributes: {
+    discussion: string;
+    bgColor: string;
+    createdAt: string;
+  };
+  relationships: {
+    owner: APIStudent | APILecturer;
+    unit: APIUnit;
+    comments: APIComment[];
+  };
+};
+
+export type APIComment = {
+  id: number;
+  attributes: {
+    comment: string;
+    createdAt: string;
+  };
+  relationships: {
+    owner: APIStudent | APILecturer;
+  };
+};
+
 export type StudentData = {
   id?: number;
   regNumber: string;
@@ -186,4 +213,17 @@ export type Result = {
   tutorial_id: number;
   points: number;
   student_id: number;
+};
+
+export type DiscussionData = {
+  discussion: string;
+  unit_id: string;
+  bgColor?: string;
+  user_id?: number;
+};
+
+export type DiscussionCommentData = {
+  comment: string;
+  discussion_id: number;
+  user_id?: number;
 };

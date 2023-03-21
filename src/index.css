@@ -64,7 +64,7 @@
 
   /* dropdown */
   .dropdownContent {
-    @apply absolute top-[calc(100%+5px)] right-0 overflow-hidden rounded-xl   bg-white px-[2px] py-[10px] shadow;
+    @apply absolute top-[calc(100%+5px)] right-0 overflow-hidden rounded-xl  bg-primary px-[2px] py-[10px] shadow z-40;
   }
   .dropdownContent {
     transform-origin: top right;
@@ -82,7 +82,7 @@
   }
 
   .widgetWrapper.show {
-    @apply visible right-0 z-40;
+    @apply visible right-0 z-50;
   }
 
   .widget {

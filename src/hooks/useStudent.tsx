@@ -253,6 +253,7 @@ const useStudent = () => {
       localStorage.removeItem('results');
       localStorage.removeItem('currentQuestionIndex');
       localStorage.removeItem('chosenAnswer');
+      localStorage.removeItem('remainingTime');
 
       setShowTakeTutorialModal(false);
       setShowCreateOrEditStudentWidget(false);

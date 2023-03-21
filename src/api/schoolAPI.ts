@@ -18,7 +18,7 @@ const SchoolAPI = {
   /**
    * units endpoints
    */
-  getUnits: async () => API.get('/admin/units?include=course'),
+  getUnits: async () => API.get('/users/units?include=course'),
   createUnit: async (unitNewData: UnitData) =>
     API.post('/admin/units', unitNewData),
   updateUnit: async (data: { unitId: number; unitUpdateData: UnitData }) =>

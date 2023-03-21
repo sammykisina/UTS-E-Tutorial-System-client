@@ -3,3 +3,4 @@ export { default as StudentAPI } from './studentAPI';
 export { default as SchoolAPI } from './schoolAPI';
 export { default as LecturerAPI } from './lecturerAPI';
 export { default as TutorialAPI } from './tutorialAPI';
+export { default as DiscussionAPI } from './discussionAPI';

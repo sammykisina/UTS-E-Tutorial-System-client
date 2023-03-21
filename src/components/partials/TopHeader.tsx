@@ -1,7 +1,7 @@
-import React, { useDeferredValue, useState } from 'react';
+import { useState } from 'react';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { appAtoms } from '@/atoms';
 import { Dropdown, Icon, Link, Profile, Title } from '@/components';
 import { HiHome, HiOutlineUser, HiUser } from 'react-icons/hi2';
@@ -17,12 +17,6 @@ const TopHeader = () => {
 
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const { user } = useAuth();
-  // const dashboardTitle =
-  //   user?.role === 'admin' || user?.role === 'super-admin'
-  //     ? 'Dashboard'
-  //     : user?.role === 'counter'
-  //     ? 'Lets Sell'
-  //     : '';
 
   /**
    * component function
@@ -32,7 +26,7 @@ const TopHeader = () => {
 
     switch (pathname) {
       case '/':
-        title = user?.role === 'admin' ? 'Dashboard' : 'Home';
+        title = user?.role === 'admin' ? 'School Management' : 'Home';
         break;
 
       case '/auth/login':
@@ -96,7 +90,11 @@ const TopHeader = () => {
       </div>
 
       {/* rest of the icons */}
-      <div className='flex items-center  gap-x-2'>
+      <div
+        className={`flex items-center  gap-x-2 ${
+          user?.role === 'admin' && 'hidden'
+        }`}
+      >
         <Dropdown
           active={<HiUser className='icon' />}
           inactive={<HiOutlineUser className='icon' />}

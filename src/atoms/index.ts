@@ -4,3 +4,4 @@ export { default as courseAtoms } from './Course';
 export { default as unitAtoms } from './Unit';
 export { default as lecturerAtoms } from './Lecturer';
 export { default as tutorialAtoms } from './Tutorial';
+export { default as discussionAtoms } from './Discussion';

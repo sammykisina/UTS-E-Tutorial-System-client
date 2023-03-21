@@ -85,6 +85,19 @@ const useAuth = () => {
     }
   }, []);
 
+  const {
+    mutateAsync: updatePasswordMutateAsync,
+    isLoading: isUpdatingPassword,
+  } = useMutation({
+    mutationFn: (data: { email: string; password: string }) => {
+      return AuthAPI.updatePassword(data);
+    },
+
+    onSuccess: async (data) => {
+      Toasts.successToast(data.message);
+    },
+  });
+
   return {
     user,
     token,
@@ -95,6 +108,8 @@ const useAuth = () => {
     isFetchingLecturerProfile,
     studentProfile,
     isFetchingStudentProfile,
+    updatePasswordMutateAsync,
+    isUpdatingPassword,
   };
 };
 

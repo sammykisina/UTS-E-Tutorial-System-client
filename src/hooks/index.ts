@@ -6,3 +6,4 @@ export { default as useSchool } from './useSchool';
 export { default as useLecturer } from './useLecturer';
 export { default as useMultiStepForm } from './useMultiStepForm';
 export { default as useTutorial } from './useTutorial';
+export { default as useDiscussion } from './useDiscussion';

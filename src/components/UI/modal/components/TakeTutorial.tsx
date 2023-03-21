@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { tutorialAtoms } from '@/atoms';
 import { useRecoilState } from 'recoil';
-import { Button, Icon, SpinnerLoader } from '@/components';
+import { Button, CountDown, Icon, SpinnerLoader } from '@/components';
 import { APIAnswer } from '../../../../types/typings.t';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { useAuth, useStudent } from '@/hooks';
@@ -33,6 +33,28 @@ const TakeTutorial = () => {
   } = useStudent();
 
   const { user } = useAuth();
+  console.log(
+    "localStorage.getItem('remainingTime')",
+    localStorage.getItem('remainingTime')
+  );
+
+  /**
+   * component functions
+   */
+  const save = () => {
+    if (
+      localStorage.removeItem('showTakeTutorialModalState') !== undefined ||
+      localStorage.removeItem('showTakeTutorialModalState') !== null
+    ) {
+      createStudentTutorialResultsMutateAsync({
+        points:
+          results *
+          parseInt(globalTutorial?.attributes?.numberOfPointsForEachQuestion!),
+        student_id: user?.id!,
+        tutorial_id: globalTutorial?.id!,
+      });
+    }
+  };
 
   return (
     <section className='p-2'>
@@ -43,7 +65,14 @@ const TakeTutorial = () => {
           {globalTutorial?.relationships?.questions?.length}
         </span>
 
-        <div>Timer</div>
+        <CountDown
+          seconds={
+            localStorage.getItem('remainingTime')
+              ? parseInt(JSON.parse(localStorage.getItem('remainingTime')!))
+              : parseInt(globalTutorial?.attributes?.timeToTakeInTutorial!)
+          }
+          save={save}
+        />
       </div>
 
       {/* qn  and answers*/}

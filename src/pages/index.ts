@@ -2,6 +2,7 @@
  * common pages
  */
 export { default as Login } from './auth/Login';
+export { default as Forum } from './Forum';
 
 /**
  * admin pages

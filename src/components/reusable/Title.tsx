@@ -7,7 +7,9 @@ const Title = ({
 }) => {
   return (
     <h2
-      className={`whitespace-nowrap font-semibold leading-tight tracking-wider text-textColor ${titleStyles}`}
+      className={`whitespace-nowrap font-semibold leading-tight tracking-wider  ${
+        titleStyles ? titleStyles : 'text-textColor'
+      }`}
     >
       {title}
     </h2>

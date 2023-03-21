@@ -5,10 +5,14 @@ const AuthAPI = {
   login: async (data: LoginData) => API.post('/auth/login', data),
   getLecturerProfile: async (lecturerId: number) =>
     API.get(
-      `/lecturer/${lecturerId}/profile?include=tutorials.unit,tutorials.questions.answers,tutorials.results.student`
+      `/lecturer/${lecturerId}/profile?include=tutorials.unit,tutorials.questions.answers,tutorials.results.student,discussions.owner,discussions.unit,discussions.comments.owner`
     ),
   getStudentProfile: async (studentId: number) =>
-    API.get(`/student/${studentId}/profile`),
+    API.get(
+      `/student/${studentId}/profile?include=discussions.owner,discussions.unit,discussions.comments.owner`
+    ),
+  updatePassword: async (data: { email: string; password: string }) =>
+    API.post('/users/password-reset', data),
 };
 
 export default AuthAPI;

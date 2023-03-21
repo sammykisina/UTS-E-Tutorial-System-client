@@ -44,7 +44,7 @@ const CreateOrEditStudent = () => {
   } = useStudent();
   const { courses, generateCourseOptions } = useSchool();
   const [selectedCourse, setSelectedCourse] = useState({
-    name: 'Select the course the student is taking',
+    name: 'Select the course',
     value: '',
   });
 
@@ -124,7 +124,7 @@ const CreateOrEditStudent = () => {
             <Select
               multiple={false}
               options={generateCourseOptions(courses)}
-              selectWrapperStyles='border  rounded-[0.9rem] py-1 w-[18rem] xs:w-[26rem]'
+              selectWrapperStyles='border  rounded-[0.9rem] py-1 w-[16rem] xs:w-[26rem]'
               selectPanelStyles='max-h-[8rem] bg-white border shadow-md'
               selected={selectedCourse}
               setSelected={setSelectedCourse}

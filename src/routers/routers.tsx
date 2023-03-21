@@ -1,10 +1,6 @@
 import {
-  HiSquares2X2,
-  HiOutlineSquares2X2,
   HiUserGroup,
   HiOutlineUserGroup,
-  HiOutlineTicket,
-  HiTicket,
   HiOutlineAcademicCap,
   HiAcademicCap,
   HiOutlineChatBubbleLeftRight,
@@ -17,16 +13,10 @@ import {
 
 const adminRoutes = [
   {
-    name: 'Dashboard',
-    inactiveIcon: <HiOutlineSquares2X2 className='icon' />,
-    activeIcon: <HiSquares2X2 className='icon' />,
-    to: '/',
-  },
-  {
     name: 'School',
     inactiveIcon: <HiOutlineAcademicCap className='icon' />,
     activeIcon: <HiAcademicCap className='icon' />,
-    to: '/school',
+    to: '/',
   },
   {
     name: 'Students',
@@ -34,12 +24,12 @@ const adminRoutes = [
     activeIcon: <HiUserGroup className='icon' />,
     to: '/students',
   },
-  {
-    name: 'Feedback',
-    inactiveIcon: <HiOutlineChatBubbleLeftRight className='icon' />,
-    activeIcon: <HiChatBubbleLeftRight className='icon' />,
-    to: '/feedback',
-  },
+  // {
+  //   name: 'Feedback',
+  //   inactiveIcon: <HiOutlineChatBubbleLeftRight className='icon' />,
+  //   activeIcon: <HiChatBubbleLeftRight className='icon' />,
+  //   to: '/feedback',
+  // },
 ];
 
 const lecturerRoutes = [

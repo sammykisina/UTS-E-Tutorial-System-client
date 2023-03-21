@@ -172,7 +172,7 @@ const useSchool = () => {
     queryFn: async ({ queryKey }) => {
       const [_, role] = queryKey;
 
-      if (role === 'admin') {
+      if (role === 'admin' || role === 'student' || role === 'lecturer') {
         return (await SchoolAPI.getUnits()) as APIUnit[];
       }
 

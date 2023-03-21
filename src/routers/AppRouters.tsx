@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useAuth } from '@/hooks';
 import {
+  Forum,
   LecturerTutorials,
   Login,
   Ranking,
@@ -25,7 +26,7 @@ const AppRouters = () => {
         element={
           <Suspense fallback='loading'>
             {role === 'admin' ? (
-              'Admin'
+              <School />
             ) : role === 'lecturer' ? (
               <LecturerTutorials />
             ) : role === 'student' ? (
@@ -56,15 +57,6 @@ const AppRouters = () => {
       />
 
       <Route
-        path='/school'
-        element={
-          <Suspense fallback='loading'>
-            <School />
-          </Suspense>
-        }
-      />
-
-      <Route
         path='/results'
         element={
           <Suspense fallback='loading'>
@@ -78,6 +70,15 @@ const AppRouters = () => {
         element={
           <Suspense fallback='loading'>
             <Ranking />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path='/forum'
+        element={
+          <Suspense fallback='loading'>
+            <Forum />
           </Suspense>
         }
       />

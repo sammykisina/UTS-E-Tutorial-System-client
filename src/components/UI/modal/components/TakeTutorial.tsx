@@ -66,11 +66,7 @@ const TakeTutorial = () => {
         </span>
 
         <CountDown
-          seconds={
-            localStorage.getItem('remainingTime')
-              ? parseInt(JSON.parse(localStorage.getItem('remainingTime')!))
-              : parseInt(globalTutorial?.attributes?.timeToTakeInTutorial!)
-          }
+          seconds={parseInt(globalTutorial?.attributes?.timeToTakeInTutorial!)}
           save={save}
         />
       </div>

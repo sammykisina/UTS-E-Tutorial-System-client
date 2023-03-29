@@ -18,7 +18,7 @@ const Tutorial: FC<{ tutorial: APITutorial }> = ({ tutorial }) => {
       className={`${tutorial?.attributes?.bgColor} px-2 py-1 rounded-[2rem] md:w-[30rem] lg:w-[35rem] gap-2 h-[20rem]  xs:h-[15rem] flex items-center relative overflow-hidden `}
     >
       <div className='absolute top-2 left-2  rounded-full bg-callToAction/10 w-fit px-3 py-1 text-xs flex gap-2 items-center justify-center leading-loose text-white'>
-        {tutorial?.attributes?.code}
+        Tutorial {tutorial?.id}
       </div>
 
       <img

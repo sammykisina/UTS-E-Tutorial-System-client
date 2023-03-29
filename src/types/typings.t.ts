@@ -227,3 +227,7 @@ export type DiscussionCommentData = {
   discussion_id: number;
   user_id?: number;
 };
+
+export interface ForgotPassword {
+  email: string;
+}

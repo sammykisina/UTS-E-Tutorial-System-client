@@ -93,8 +93,9 @@ const TutorialQns = () => {
 
         <div
           className={`${
-            globalTutorial?.relationships?.questions?.length ===
-              globalTutorial?.attributes?.numberOfQuestions && 'hidden'
+            globalTutorial?.relationships?.questions?.length! >=
+              parseInt(globalTutorial?.attributes?.numberOfQuestions!) &&
+            'hidden'
           }`}
         >
           <Button

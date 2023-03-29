@@ -32,7 +32,7 @@ const useStudent = () => {
         accessorKey: 'regNumber',
       },
       {
-        header: 'Course',
+        header: 'School',
         accessorKey: 'course',
       },
       {

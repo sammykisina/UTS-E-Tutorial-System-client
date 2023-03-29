@@ -27,7 +27,7 @@ const useLecturer = () => {
   >(
     () => [
       {
-        header: 'Work Number',
+        header: 'Staff ID',
         accessorKey: 'workNumber',
       },
       {
@@ -39,7 +39,7 @@ const useLecturer = () => {
         accessorKey: 'email',
       },
       {
-        header: 'Units',
+        header: 'Courses',
         accessorKey: 'units',
         cell: ({ row }) => <LecturerUnits units={row?.original?.units} />,
       },

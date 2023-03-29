@@ -13,7 +13,7 @@ const Logo = ({
       className={`flex cursor-pointer  items-center gap-1 font-bold  ${logoStyles}`}
     >
       <div className='text-shadow relative  whitespace-nowrap font-semibold leading-tight tracking-wider'>
-        ETe
+        ETS
         <div
           className={`absolute  bottom-[0rem] -right-[0.2rem] self-end  rounded-full ${dotStyles}`}
         />

@@ -4,7 +4,13 @@ import { AuthAPI } from '@/api';
 import Cookies from 'js-cookie';
 import { Toasts } from '@/components';
 import { useNavigate } from 'react-router-dom';
-import { APILecturer, APIStudent, LoginData, User } from '../types/typings.t';
+import {
+  APILecturer,
+  APIStudent,
+  ForgotPassword,
+  LoginData,
+  User,
+} from '../types/typings.t';
 
 const useAuth = () => {
   /**
@@ -98,6 +104,18 @@ const useAuth = () => {
     },
   });
 
+  const { mutateAsync: sendEmailMutateAsync, isLoading: isSendingEmail } =
+    useMutation({
+      mutationFn: (forgotPassword: ForgotPassword) => {
+        return AuthAPI.sendEmail(forgotPassword);
+      },
+
+      onSuccess: async (data) => {
+        navigate('/auth/login');
+        Toasts.successToast(data.message);
+      },
+    });
+
   return {
     user,
     token,
@@ -110,6 +128,8 @@ const useAuth = () => {
     isFetchingStudentProfile,
     updatePasswordMutateAsync,
     isUpdatingPassword,
+    sendEmailMutateAsync,
+    isSendingEmail,
   };
 };
 

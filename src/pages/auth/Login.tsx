@@ -97,7 +97,12 @@ const Login = () => {
       </div>
 
       <div className='mt-10 flex justify-center flex-col items-center'>
-        <span className='text-textColor tracking-wider'>Forgot Password?</span>
+        <Link
+          route={{
+            to: '/email',
+            name: 'Forgot Password?',
+          }}
+        />
       </div>
 
       {/* Toaster */}

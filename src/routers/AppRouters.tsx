@@ -10,6 +10,7 @@ import {
   School,
   StudentTutorials,
   Students,
+  Email,
 } from '@/pages';
 
 const AppRouters = () => {
@@ -79,6 +80,15 @@ const AppRouters = () => {
         element={
           <Suspense fallback='loading'>
             <Forum />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path='/email'
+        element={
+          <Suspense fallback='loading'>
+            <Email />
           </Suspense>
         }
       />

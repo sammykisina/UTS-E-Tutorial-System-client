@@ -12,6 +12,7 @@ import {
 } from '@/components';
 import { useAuth } from '@/hooks';
 import { Login } from '@/pages';
+import { useLocation } from 'react-router-dom';
 
 const Layout = () => {
   /**
@@ -27,8 +28,9 @@ const Layout = () => {
 
   const { showTakeTutorialModalState } = studentAtoms;
   const showTakeTutorialModal = useRecoilValue(showTakeTutorialModalState);
+  const { pathname } = useLocation();
 
-  if (!user) return <Login />;
+  if (!user && !(pathname === '/email')) return <Login />;
 
   /**
    * component functions

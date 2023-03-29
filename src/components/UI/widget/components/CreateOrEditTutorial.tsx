@@ -47,7 +47,7 @@ const CreateOrEditTutorial = () => {
     reset,
   } = useForm<TutorialData>();
   const [selectedUnit, setSelectedUnit] = useState<SelectionOption>({
-    name: 'Select the unit the tutorial is for.',
+    name: 'Select the course the tutorial is for.',
     value: '',
   });
 

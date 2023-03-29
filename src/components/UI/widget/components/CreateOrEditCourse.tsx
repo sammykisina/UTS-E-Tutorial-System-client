@@ -69,24 +69,24 @@ const CreateOrEditCourse = () => {
           setGlobalCourse(null);
           setShowCreateOrEditCourseWidget(false);
         }}
-        title={!isEditingCourse ? 'CREATE COURSE' : 'EDIT COURSE'}
+        title={!isEditingCourse ? 'CREATE SCHOOL' : 'EDIT SCHOOL'}
       />
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col gap-6 px-2 mt-3'
+        className='flex flex-col gap-6 px-2 mt-3 h-[10rem]'
       >
         <div className='flex flex-col gap-y-5 rounded-md border py-4 px-2'>
           <div className='relative'>
             <input
               type='text'
               className='input peer'
-              placeholder='Course Name'
+              placeholder='School Name'
               {...register('name', {
-                required: 'Course name is required.',
+                required: 'School name is required.',
               })}
             />
-            <label className='inputLabel'>Course Name</label>
+            <label className='inputLabel'>School Name</label>
 
             {errors['name'] && (
               <ErrorMessage

@@ -65,7 +65,7 @@ const CreateOrEditDiscussion = () => {
    */
   const onSubmit: SubmitHandler<DiscussionData> = ({ discussion }) => {
     if (selectedUnit.value === '') {
-      Toasts.errorToast('Select a unit for this discussion.');
+      Toasts.errorToast('Select a course for this discussion.');
       return;
     }
 
@@ -135,7 +135,7 @@ const CreateOrEditDiscussion = () => {
           </div>
 
           <div className='flex items-center gap-2'>
-            <span className='text-textColor/50'>Unit</span>
+            <span className='text-textColor/50'>Course</span>
             <Select
               multiple={false}
               options={generateUnitOptions(units)}

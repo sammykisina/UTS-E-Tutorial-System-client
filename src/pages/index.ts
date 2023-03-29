@@ -3,6 +3,7 @@
  */
 export { default as Login } from './auth/Login';
 export { default as Forum } from './Forum';
+export { default as Email } from './auth/Email';
 
 /**
  * admin pages

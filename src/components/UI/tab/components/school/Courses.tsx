@@ -28,10 +28,10 @@ const Courses = () => {
     <section className='h-full xs:h-[34.5rem] lg:h-[39rem]'>
       {/* title */}
       <div className='flex items-center justify-between'>
-        <TabTitle title='COURSES' />
+        <TabTitle title='SCHOOL' />
 
         <Button
-          title='Create Course'
+          title='Create School'
           type='button'
           intent='primary'
           fullWidth={false}

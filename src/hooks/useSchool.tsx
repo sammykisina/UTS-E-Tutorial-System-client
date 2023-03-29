@@ -83,7 +83,7 @@ const useSchool = () => {
         accessorKey: 'name',
       },
       {
-        header: 'Course',
+        header: 'School',
         accessorKey: 'course',
       },
       {

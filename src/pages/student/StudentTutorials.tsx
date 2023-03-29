@@ -32,7 +32,7 @@ const StudentTutorials = () => {
     <section className='flex flex-col gap-4 h-full xs:h-[40rem] lg:h-[39rem]'>
       {/* students units (connected to course) */}
       <div className='flex gap-2 bg-callToAction/5 py-2 px-2'>
-        <TabTitle title='YOUR UNITS.' />
+        <TabTitle title='YOUR SCHOOLS.' />
 
         <div className='flex gap-1  w-full px-2 overflow-x-scroll scrollbar-hide'>
           {isFetchingStudentProfile ? (

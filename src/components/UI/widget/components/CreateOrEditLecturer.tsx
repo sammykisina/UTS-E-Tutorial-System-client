@@ -119,12 +119,12 @@ const CreateOrEditLecturer = () => {
             <input
               type='number'
               className='input peer'
-              placeholder='Lecturer Work Number.'
+              placeholder='Staff ID'
               {...register('workNumber', {
                 required: 'lecturer work number is required.',
               })}
             />
-            <label className='inputLabel'>Lecturer Work Number.</label>
+            <label className='inputLabel'>Staff ID</label>
 
             {errors['workNumber'] && (
               <ErrorMessage

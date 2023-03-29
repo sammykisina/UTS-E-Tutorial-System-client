@@ -1,4 +1,4 @@
-import { LoginData } from '../types/typings.t';
+import { ForgotPassword, LoginData } from '../types/typings.t';
 import { API } from './api';
 
 const AuthAPI = {
@@ -13,6 +13,9 @@ const AuthAPI = {
     ),
   updatePassword: async (data: { email: string; password: string }) =>
     API.post('/users/password-reset', data),
+
+  sendEmail: async (data: ForgotPassword) =>
+    API.post(`/auth/forgot-password`, data),
 };
 
 export default AuthAPI;

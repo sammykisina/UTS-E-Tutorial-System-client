@@ -50,7 +50,7 @@ const CreateOrEditUnit = () => {
   } = useSchool();
 
   const [selectedCourse, setSelectedCourse] = useState<SelectionOption>({
-    name: 'Select the unit course',
+    name: 'Select the school',
     value: '',
   });
 
@@ -59,7 +59,7 @@ const CreateOrEditUnit = () => {
    */
   const onSubmit: SubmitHandler<CourseData> = ({ name }) => {
     if (selectedCourse.value === '') {
-      Toasts.errorToast('Select the units course.');
+      Toasts.errorToast('Select the school.');
       return;
     }
 
@@ -99,7 +99,7 @@ const CreateOrEditUnit = () => {
           setGlobalUnit(null);
           setShowCreateOrEditUnitWidget(false);
         }}
-        title={!isEditingUnit ? 'CREATE UNIT' : 'EDIT UNIT'}
+        title={!isEditingUnit ? 'CREATE COURSE' : 'EDIT COURSE'}
       />
 
       <form
@@ -111,12 +111,12 @@ const CreateOrEditUnit = () => {
             <input
               type='text'
               className='input peer'
-              placeholder='Unit Name'
+              placeholder='Course Name'
               {...register('name', {
                 required: 'Course name is required.',
               })}
             />
-            <label className='inputLabel'>Unit Name</label>
+            <label className='inputLabel'>Course Name</label>
 
             {errors['name'] && (
               <ErrorMessage

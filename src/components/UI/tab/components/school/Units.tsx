@@ -25,10 +25,10 @@ const Units = () => {
     <section className='h-full xs:h-[34.5rem] lg:h-[39rem]'>
       {/* title */}
       <div className='flex items-center justify-between'>
-        <TabTitle title='UNITS' />
+        <TabTitle title='COURSES' />
 
         <Button
-          title='Create Unit'
+          title='Create Course'
           type='button'
           intent='primary'
           fullWidth={false}

@@ -44,7 +44,7 @@ const CreateOrEditStudent = () => {
   } = useStudent();
   const { courses, generateCourseOptions } = useSchool();
   const [selectedCourse, setSelectedCourse] = useState({
-    name: 'Select the course',
+    name: 'Select the school',
     value: '',
   });
 
@@ -91,7 +91,7 @@ const CreateOrEditStudent = () => {
           setGlobalStudent(null);
           setShowCreateOrEditStudentWidget(false);
         }}
-        title={!isEditingStudent ? 'CREATE STUDENT' : 'EDIT STUDENT'}
+        title={!isEditingStudent ? 'ADD STUDENT' : 'EDIT STUDENT'}
       />
 
       <form

@@ -72,8 +72,10 @@ const Profile = () => {
 
       {user ? (
         <div className='p-2'>
-          <span>{profile?.attributes?.name}</span>
-          <span>{profile?.attributes?.email}</span>
+          <div className='flex flex-col gap-2'>
+            <span>{profile?.attributes?.name}</span>
+            <span>{profile?.attributes?.email}</span>
+          </div>
 
           {/* update password */}
           <div className='mt-6 flex justify-center '>

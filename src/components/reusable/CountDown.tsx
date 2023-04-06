@@ -2,46 +2,38 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import { RiMacFill } from 'react-icons/ri';
 
 type CountDownProps = {
-  seconds: number;
+  time: number;
   save: () => void;
 };
 
-const CountDown: FC<CountDownProps> = ({ seconds, save }) => {
+const CountDown: FC<CountDownProps> = ({ time, save }) => {
   /**
    * component states
    */
-  const [countDown, setCountDown] = useState(seconds);
-  const timerId = useRef('');
-
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(0);
   /**
    * component functions
    */
-  const formatTime = (time: number) => {
-    let minutes = Math.floor(time / 60);
-    let seconds = Math.floor(time - minutes * 60);
-
-    if (minutes <= 10) minutes = '0' + minutes;
-    if (seconds <= 10) seconds = '0' + seconds;
-
-    return minutes + ':' + seconds;
-  };
-
   useEffect(() => {
-    timerId.current = setInterval(() => {
-      setCountDown((prev) => prev - 1);
+    var timer = setInterval(() => {
+      setSeconds(seconds + 1);
+
+      if (seconds === 59) {
+        setMinutes(minutes + 1);
+        setSeconds(0);
+      }
     }, 1000);
 
-    return () => clearInterval(timerId.current);
-  }, []);
+    return () => clearInterval(timer);
+  });
 
-  useEffect(() => {
-    if (countDown <= 0) {
-      clearInterval(timerId.current);
-      // save();
-    }
-  }, [countDown]);
-
-  return <div>{formatTime(countDown)}</div>;
+  return (
+    <div className='rounded-full bg-green-400/10 w-fit px-3 py-1 text-xs flex items-center justify-center leading-loose'>
+      {minutes < 10 ? '0' + minutes : minutes} :{' '}
+      {seconds < 10 ? '0' + seconds : seconds}
+    </div>
+  );
 };
 
 export default CountDown;

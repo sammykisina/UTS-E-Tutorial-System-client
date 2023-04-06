@@ -225,7 +225,7 @@ const CreateOrEditTutorialQn = () => {
 
           <div className='flex flex-col gap-y-5 rounded-md border py-4 px-2'>
             <div className='flex items-center gap-2'>
-              <span className='text-textColor/50'>Course</span>
+              <span className='text-textColor/50'>Answer</span>
               <Select
                 multiple={false}
                 options={[

@@ -10,11 +10,7 @@ import { lecturerAtoms } from '@/atoms';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import {
-  LecturerData,
-  SelectionOption,
-  StudentData,
-} from '../../../../types/typings.t';
+import { LecturerData, SelectionOption } from '../../../../types/typings.t';
 import { useLecturer, useSchool } from '@/hooks';
 import { useEffect, useState } from 'react';
 
@@ -143,7 +139,7 @@ const CreateOrEditLecturer = () => {
               className='input peer'
               placeholder='Name'
               {...register('name', {
-                required: 'Student name is required.',
+                required: 'Lecturer name is required.',
               })}
             />
             <label className='inputLabel'>Name</label>
@@ -163,7 +159,7 @@ const CreateOrEditLecturer = () => {
               className='input peer'
               placeholder='Email'
               {...register('email', {
-                required: 'Student email is required.',
+                required: 'Lecturer email is required.',
               })}
             />
             <label className='inputLabel'>Email</label>
@@ -178,7 +174,7 @@ const CreateOrEditLecturer = () => {
           </div>
 
           <div className='flex items-center gap-2'>
-            <span className='text-textColor/50'>Units</span>
+            <span className='text-textColor/50'>Schools</span>
             <Select
               multiple={true}
               options={generateUnitOptions(units)}

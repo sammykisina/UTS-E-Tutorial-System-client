@@ -87,7 +87,7 @@ const CreateOrEditTutorial = () => {
     timeToTakeInTutorial,
   }) => {
     if (selectedUnit.value === '') {
-      Toasts.errorToast('Select the unit for which this tutorial is for.');
+      Toasts.errorToast('Select the course for which this tutorial is for.');
       return;
     }
 
@@ -175,7 +175,7 @@ const CreateOrEditTutorial = () => {
             </div>
 
             <div className='flex items-center gap-2'>
-              <span className='text-textColor/50'>Unit</span>
+              <span className='text-textColor/50'>Course</span>
               <Select
                 multiple={false}
                 options={generateUnitOptions(

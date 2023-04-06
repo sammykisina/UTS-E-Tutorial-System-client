@@ -120,7 +120,7 @@ const CreateOrEditStudent = () => {
           </div>
 
           <div className='flex items-center gap-2'>
-            <span className='text-textColor/50'>Course</span>
+            <span className='text-textColor/50'>School</span>
             <Select
               multiple={false}
               options={generateCourseOptions(courses)}

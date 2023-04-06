@@ -33,10 +33,6 @@ const TakeTutorial = () => {
   } = useStudent();
 
   const { user } = useAuth();
-  console.log(
-    "localStorage.getItem('remainingTime')",
-    localStorage.getItem('remainingTime')
-  );
 
   /**
    * component functions
@@ -65,10 +61,18 @@ const TakeTutorial = () => {
           {globalTutorial?.relationships?.questions?.length}
         </span>
 
-        <CountDown
-          seconds={parseInt(globalTutorial?.attributes?.timeToTakeInTutorial!)}
-          save={save}
-        />
+        <div className='flex items-center gap-3'>
+          <span>
+            You have {globalTutorial?.attributes?.timeToTakeInTutorial} mins
+          </span>
+
+          <CountDown
+            time={
+              parseInt(globalTutorial?.attributes?.timeToTakeInTutorial!) * 60
+            }
+            save={save}
+          />
+        </div>
       </div>
 
       {/* qn  and answers*/}

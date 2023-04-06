@@ -66,7 +66,7 @@ const useStudent = () => {
   >(
     () => [
       {
-        header: 'Tutorial Code',
+        header: 'Tutorial Name',
         accessorKey: 'tutorialCode',
         cell: ({ row }) => (
           <span className='rounded-full bg-amber-400/10 w-fit px-3 py-1 text-xs flex items-center justify-center leading-loose'>
@@ -79,7 +79,7 @@ const useStudent = () => {
         accessorKey: 'points',
       },
       {
-        header: 'Unit',
+        header: 'Course',
         accessorKey: 'unit',
         cell: ({ row }) => (
           <span className='rounded-full bg-callToAction/10 w-fit px-3 py-1 text-xs flex items-center justify-center leading-loose'>
@@ -200,7 +200,7 @@ const useStudent = () => {
       modifiedResultsData = [
         ...modifiedResultsData,
         {
-          tutorialCode: result?.relationships?.tutorial?.attributes?.code,
+          tutorialCode: 'tutorial ' + result?.relationships?.tutorial?.id,
           points: result?.attributes?.points,
           regNumber: result?.relationships?.student?.attributes?.regNumber,
           name: result?.relationships?.student?.attributes?.name,

@@ -62,6 +62,7 @@ export { default as CreateOrEditDiscussion } from './UI/widget/components/Create
 export { default as ModalClose } from './UI/modal/ModalClose';
 export { default as ModalHeader } from './UI/modal/ModalHeader';
 export { default as TakeTutorial } from './UI/modal/components/TakeTutorial';
+export { default as TutorialResults } from './UI/modal/components/TutorialResults';
 
 /**
  * reusable

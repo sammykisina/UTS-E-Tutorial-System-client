@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { StudentData } from '../types/typings.t';
+import { APIAnswer, APIQuestion, StudentData } from '../types/typings.t';
 
 const showCreateOrEditStudentWidgetState = atom({
   key: 'showCreateOrEditStudentWidgetState',
@@ -15,6 +15,11 @@ const showTakeTutorialModalState = atom({
     : false,
 });
 
+const showTutorialResultsModalState = atom({
+  key: 'showTutorialResultsModalState',
+  default: false,
+});
+
 const isEditingStudentState = atom({
   key: 'isEditingStudentState',
   default: false,
@@ -25,11 +30,18 @@ const globalStudentState = atom<StudentData | null>({
   default: null,
 });
 
+const yourChoicesState = atom<{ question: APIQuestion; answer: APIAnswer }[]>({
+  key: 'yourChoicesState',
+  default: [],
+});
+
 const studentAtoms = {
   showCreateOrEditStudentWidgetState,
   isEditingStudentState,
   globalStudentState,
   showTakeTutorialModalState,
+  showTutorialResultsModalState,
+  yourChoicesState,
 };
 
 export default studentAtoms;

@@ -26,7 +26,7 @@ const CountDown: FC<CountDownProps> = ({ time, save }) => {
     }, 1000);
 
     return () => clearInterval(timer);
-  });
+  }, []);
 
   return (
     <div className='rounded-full bg-green-400/10 w-fit px-3 py-1 text-xs flex items-center justify-center leading-loose'>

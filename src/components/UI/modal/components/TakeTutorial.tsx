@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { tutorialAtoms } from '@/atoms';
-import { useRecoilState } from 'recoil';
-import { Button, CountDown, Icon, SpinnerLoader } from '@/components';
-import { APIAnswer } from '../../../../types/typings.t';
+import { studentAtoms, tutorialAtoms } from '@/atoms';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  Button,
+  CountDown,
+  Icon,
+  Modal,
+  SpinnerLoader,
+  TutorialResults,
+} from '@/components';
+import { APIAnswer, APIQuestion } from '../../../../types/typings.t';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { useAuth, useStudent } from '@/hooks';
 
@@ -10,22 +17,20 @@ const TakeTutorial = () => {
   /**
    * component states
    */
+  const {
+    showTakeTutorialModalState,
+    showTutorialResultsModalState,
+    yourChoicesState,
+  } = studentAtoms;
+  const [showTutorialResultsModal, setShowTutorialResultsModal] =
+    useRecoilState(showTutorialResultsModalState);
+
   const { globalTutorialState } = tutorialAtoms;
   const [globalTutorial, setGlobalTutorial] =
     useRecoilState(globalTutorialState);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(
-    localStorage.getItem('currentQuestionIndex')
-      ? JSON.parse(localStorage.getItem('currentQuestionIndex')!)
-      : 0
-  );
-  const [chosenAnswer, setChosenAnswer] = useState<APIAnswer | null>(
-    JSON.parse(localStorage.getItem('chosenAnswer')!)
-  );
-  const [results, setResults] = useState(
-    localStorage.getItem('results')
-      ? JSON.parse(localStorage.getItem('results')!)
-      : 0
-  );
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [chosenAnswer, setChosenAnswer] = useState<APIAnswer | null>(null);
+  const [yourChoices, setYourChoices] = useRecoilState(yourChoicesState);
 
   const {
     createStudentTutorialResultsMutateAsync,
@@ -37,19 +42,30 @@ const TakeTutorial = () => {
   /**
    * component functions
    */
-  const save = () => {
-    if (
-      localStorage.removeItem('showTakeTutorialModalState') !== undefined ||
-      localStorage.removeItem('showTakeTutorialModalState') !== null
-    ) {
-      createStudentTutorialResultsMutateAsync({
-        points:
-          results *
-          parseInt(globalTutorial?.attributes?.numberOfPointsForEachQuestion!),
-        student_id: user?.id!,
-        tutorial_id: globalTutorial?.id!,
+
+  const setChoice = (chosenAnswer: APIAnswer, question: APIQuestion) => {
+    const questionBeingAnswered = yourChoices?.find(
+      (yourChoice) => yourChoice.question?.id === question.id
+    );
+
+    // if no qn, thn add it
+    if (!questionBeingAnswered) {
+      setYourChoices((prev) => {
+        return [...prev, { answer: chosenAnswer, question: question }];
       });
+    } else {
+      // update the answer
+      const yourChoicesUpdated = yourChoices?.map((yourChoice) =>
+        yourChoice?.question.id === question?.id
+          ? { question: yourChoice?.question, answer: chosenAnswer }
+          : yourChoice
+      );
+
+      setYourChoices(yourChoicesUpdated);
     }
+
+    // console.log('questionBeingAnswered', questionBeingAnswered);
+    // console.log('yourChoices', yourChoices);
   };
 
   return (
@@ -65,13 +81,6 @@ const TakeTutorial = () => {
           <span>
             You have {globalTutorial?.attributes?.timeToTakeInTutorial} mins
           </span>
-
-          <CountDown
-            time={
-              parseInt(globalTutorial?.attributes?.timeToTakeInTutorial!) * 60
-            }
-            save={save}
-          />
         </div>
       </div>
 
@@ -92,51 +101,25 @@ const TakeTutorial = () => {
               <div
                 key={answerIndex}
                 onClick={() => {
-                  if (!chosenAnswer) {
-                    setChosenAnswer(answer);
-                    localStorage.setItem(
-                      'chosenAnswer',
-                      JSON.stringify(answer)
-                    );
-                  }
-
-                  if (
-                    answer?.attributes?.identity ===
+                  setChosenAnswer(answer);
+                  setChoice(
+                    answer,
                     globalTutorial?.relationships?.questions[
                       currentQuestionIndex
-                    ].attributes?.correctAnswer
-                  ) {
-                    setResults(results + 1);
-                    localStorage.setItem(
-                      'results',
-                      JSON.stringify(results + 1)
-                    );
-                  }
+                    ]
+                  );
                 }}
                 className={`cursor-pointer flex items-center hover:bg-callToAction duration-300 ${
-                  answer?.attributes?.identity ===
-                    chosenAnswer?.attributes?.identity && 'bg-callToAction'
+                  answer?.id === chosenAnswer?.id && 'bg-callToAction'
                 }`}
               >
+                {/* number */}
                 <span className='bg-callToAction p-2 icon flex justify-center items-center rounded-full text-white'>
-                  {chosenAnswer ? (
-                    globalTutorial?.relationships?.questions[
-                      currentQuestionIndex
-                    ].attributes?.correctAnswer ===
-                    answer?.attributes?.identity ? (
-                      <Icon icon={<IoCheckmarkDoneSharp />} />
-                    ) : (
-                      answerIndex + 1
-                    )
-                  ) : (
-                    answerIndex + 1
-                  )}
+                  {answerIndex + 1}
                 </span>
 
-                <p
-                  key={answerIndex}
-                  className='bg-callToAction/10 rounded-full px-4  py-2'
-                >
+                {/* answer */}
+                <p className='bg-callToAction/10 rounded-full px-4  py-2'>
                   {answer?.attributes?.answer}
                 </p>
               </div>
@@ -145,9 +128,7 @@ const TakeTutorial = () => {
         </div>
       )}
 
-      <div
-        className={`flex justify-end mt-4 ${chosenAnswer ? 'block' : 'hidden'}`}
-      >
+      <div className={`flex justify-end mt-4`}>
         <Button
           title={
             globalTutorial?.relationships?.questions.length ===
@@ -171,7 +152,11 @@ const TakeTutorial = () => {
             ) {
               createStudentTutorialResultsMutateAsync({
                 points:
-                  results *
+                  yourChoices?.filter(
+                    (yourChoice) =>
+                      yourChoice?.question?.attributes?.correctAnswer ===
+                      yourChoice?.answer?.attributes?.identity
+                  ).length *
                   parseInt(
                     globalTutorial?.attributes?.numberOfPointsForEachQuestion!
                   ),
@@ -180,14 +165,7 @@ const TakeTutorial = () => {
               });
             } else {
               setCurrentQuestionIndex(currentQuestionIndex + 1);
-              setChosenAnswer(null);
-              localStorage.setItem(
-                'currentQuestionIndex',
-                JSON.stringify(currentQuestionIndex + 1)
-              );
             }
-
-            localStorage.removeItem('chosenAnswer');
           }}
         />
       </div>

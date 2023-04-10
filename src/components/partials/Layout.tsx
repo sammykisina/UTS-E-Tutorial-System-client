@@ -8,6 +8,7 @@ import {
   TakeTutorial,
   TopHeader,
   TutorialQns,
+  TutorialResults,
   Widget,
 } from '@/components';
 import { useAuth } from '@/hooks';
@@ -29,6 +30,9 @@ const Layout = () => {
   const { showTakeTutorialModalState } = studentAtoms;
   const showTakeTutorialModal = useRecoilValue(showTakeTutorialModalState);
   const { pathname } = useLocation();
+
+  const [showTutorialResultsModal, setShowTutorialResultsModal] =
+    useRecoilState(studentAtoms.showTutorialResultsModalState);
 
   if (!user && !(pathname === '/email')) return <Login />;
 
@@ -69,6 +73,12 @@ const Layout = () => {
       <Modal
         component={<TakeTutorial />}
         modalState={showTakeTutorialModal}
+        modalStyles='w-[90vw] h-fit'
+      />
+
+      <Modal
+        component={<TutorialResults />}
+        modalState={showTutorialResultsModal}
         modalStyles='w-[90vw] h-fit'
       />
     </section>

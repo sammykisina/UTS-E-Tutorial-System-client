@@ -7,7 +7,7 @@ import { ColumnDef, Row } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { Button, DeleteStudent, Toasts } from '@/components';
 import { studentAtoms, tutorialAtoms } from '@/atoms';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
 const useStudent = () => {
@@ -98,6 +98,7 @@ const useStudent = () => {
     showCreateOrEditStudentWidgetState,
     globalStudentState,
     isEditingStudentState,
+    showTutorialResultsModalState,
   } = studentAtoms;
   const setShowCreateOrEditStudentWidget = useSetRecoilState(
     showCreateOrEditStudentWidgetState
@@ -112,6 +113,8 @@ const useStudent = () => {
   const setShowTakeTutorialModal = useSetRecoilState(
     showTakeTutorialModalState
   );
+  const [showTutorialResultsModal, setShowTutorialResultsModal] =
+    useRecoilState(showTutorialResultsModalState);
 
   /**
    * component functions
@@ -258,7 +261,8 @@ const useStudent = () => {
       setShowTakeTutorialModal(false);
       setShowCreateOrEditStudentWidget(false);
 
-      navigate('/results');
+      // navigate('/results');
+      setShowTutorialResultsModal(true);
       Toasts.successToast(data.message);
     },
   });

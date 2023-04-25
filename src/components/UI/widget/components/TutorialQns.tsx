@@ -1,6 +1,9 @@
 import {
   Button,
   CreateOrEditTutorialQn,
+  DeleteTutorialQn,
+  Icon,
+  SpinnerLoader,
   Title,
   Widget,
   WidgetHeader,
@@ -9,6 +12,8 @@ import { tutorialAtoms } from '@/atoms';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { FC } from 'react';
 import { APIQuestion } from '../../../../types/typings.t';
+import { HiOutlineTrash, HiPencilSquare } from 'react-icons/hi2';
+import useTutorial from '../../../../hooks/useTutorial';
 
 const TutorialQns = () => {
   /**
@@ -18,6 +23,8 @@ const TutorialQns = () => {
     globalTutorialState,
     showTutorialQnsWidgetState,
     showCreateOrEditTutorialQnWidgetState,
+    globalTutorialQNState,
+    isEditingTutorialQnState,
   } = tutorialAtoms;
   const [globalTutorial, setGlobalTutorial] =
     useRecoilState(globalTutorialState);
@@ -29,6 +36,10 @@ const TutorialQns = () => {
     setShowCreateOrEditTutorialQnWidget,
   ] = useRecoilState(showCreateOrEditTutorialQnWidgetState);
 
+  const setGlobalTutorialQN = useSetRecoilState(globalTutorialQNState);
+
+  const setIsEditingTutorialQn = useSetRecoilState(isEditingTutorialQnState);
+
   /**
    * component functions
    */
@@ -38,10 +49,25 @@ const TutorialQns = () => {
   }) => {
     return (
       <section className='border p-2 rounded-[1rem]'>
-        <div
-          className={`icon p-4 flex justify-center items-center font-bold rounded-full text-textColor ${globalTutorial?.attributes?.bgColor}`}
-        >
-          {questionIndex + 1}
+        <div className='flex justify-between items-center'>
+          <div
+            className={`icon p-4 flex justify-center items-center font-bold rounded-full text-textColor ${globalTutorial?.attributes?.bgColor}`}
+          >
+            {questionIndex + 1}
+          </div>
+
+          <div className='flex gap-2'>
+            <Icon
+              iconWrapperStyles='text-green-500'
+              icon={<HiPencilSquare className='icon' />}
+              purpose={() => {
+                setShowCreateOrEditTutorialQnWidget(true);
+                setIsEditingTutorialQn(true);
+                setGlobalTutorialQN(question);
+              }}
+            />
+            <DeleteTutorialQn tutorialQnId={question?.id} />
+          </div>
         </div>
 
         <div className='mt-2'>

@@ -75,6 +75,7 @@ export { default as DeleteStudent } from './reusable/delete/DeleteStudent';
 export { default as DeleteCourse } from './reusable/delete/DeleteCourse';
 export { default as DeleteUnit } from './reusable/delete/DeleteUnit';
 export { default as DeleteLecturer } from './reusable/delete/DeleteLecturer';
+export { default as DeleteTutorialQn } from './reusable/delete/DeleteTutorialQn';
 export { default as Tutorial } from './reusable/Tutorial';
 export { default as Discussion } from './reusable/Discussion';
 export { default as CountDown } from './reusable/CountDown';

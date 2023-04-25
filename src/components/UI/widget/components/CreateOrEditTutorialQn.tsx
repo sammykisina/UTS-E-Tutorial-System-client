@@ -10,7 +10,7 @@ import { tutorialAtoms } from '@/atoms';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTutorial } from '@/hooks';
 
 export type TutorialQns = {
@@ -50,6 +50,7 @@ const CreateOrEditTutorialQn = () => {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TutorialQns>();
   const {
@@ -86,7 +87,14 @@ const CreateOrEditTutorialQn = () => {
     ];
 
     isEditingTutorialQn
-      ? ''
+      ? updateTutorialQnMutateAsync({
+          tutorialQnId: globalTutorialQN?.id!,
+          tutorialQnUpdateData: {
+            question,
+            answers,
+            correctAnswer: selectedCorrectAnswer?.value,
+          },
+        })
       : createTutorialQnMutateAsync({
           question,
           correctAnswer: selectedCorrectAnswer?.value,
@@ -94,6 +102,39 @@ const CreateOrEditTutorialQn = () => {
           answers,
         });
   };
+
+  console.log(
+    'globalTQn',
+    globalTutorialQN?.relationships?.answers.find(
+      (answer) => answer?.attributes?.identity === 'answer1'
+    )
+  );
+
+  useEffect(() => {
+    if (globalTutorialQN && isEditingTutorialQn) {
+      reset({
+        question: globalTutorialQN?.attributes?.question,
+        answer1: globalTutorialQN?.relationships?.answers.find(
+          (answer) => answer?.attributes?.identity === 'answer1'
+        )?.attributes?.answer,
+
+        answer2: globalTutorialQN?.relationships?.answers.find(
+          (answer) => answer?.attributes?.identity === 'answer2'
+        )?.attributes?.answer,
+        answer3: globalTutorialQN?.relationships?.answers.find(
+          (answer) => answer?.attributes?.identity === 'answer3'
+        )?.attributes?.answer,
+        answer4: globalTutorialQN?.relationships?.answers.find(
+          (answer) => answer?.attributes?.identity === 'answer4'
+        )?.attributes?.answer,
+      });
+
+      setSelectedCorrectAnswer({
+        name: globalTutorialQN?.attributes?.correctAnswer,
+        value: globalTutorialQN?.attributes?.correctAnswer,
+      });
+    }
+  }, [globalTutorialQN, isEditingTutorialQn, reset]);
 
   return (
     <section>

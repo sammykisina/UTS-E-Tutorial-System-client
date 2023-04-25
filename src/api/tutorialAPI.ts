@@ -26,7 +26,14 @@ const TutorialAPI = {
   updateTutorialQuestion: async (data: {
     tutorialQnId: number;
     tutorialQnUpdateData: QN;
-  }) => API.patch(``, data),
+  }) =>
+    API.patch(
+      `/lecturer/tutorials/questions/${data.tutorialQnId}`,
+      data.tutorialQnUpdateData
+    ),
+
+  deleteTutorialQuestion: async (tutorialQnId: number) =>
+    API.delete(`/lecturer/tutorials/questions/${tutorialQnId}`),
 };
 
 export default TutorialAPI;

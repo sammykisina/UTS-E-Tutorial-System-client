@@ -202,7 +202,7 @@ export type TutorialData = {
 export type QN = {
   question: string;
   correctAnswer: string;
-  tutorial_id: number;
+  tutorial_id?: number;
   answers: {
     identity: string;
     answer: string;

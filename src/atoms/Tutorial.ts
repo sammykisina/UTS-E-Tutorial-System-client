@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { APITutorial } from '../types/typings.t';
+import { APIQuestion, APITutorial } from '../types/typings.t';
 
 const showCreateOrEditTutorialWidgetState = atom({
   key: 'showCreateOrEditTutorialWidgetState',
@@ -33,7 +33,7 @@ const globalTutorialState = atom<APITutorial | null>({
     : null,
 });
 
-const globalTutorialQNState = atom<null>({
+const globalTutorialQNState = atom<null | APIQuestion>({
   key: 'globalTutorialQNState',
   default: null,
 });

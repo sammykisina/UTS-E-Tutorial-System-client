@@ -129,6 +129,21 @@ const useTutorial = () => {
     },
   });
 
+  const {
+    mutateAsync: deleteTutorialQnMutateAsync,
+    isLoading: isDeletingTutorialQn,
+  } = useMutation({
+    mutationFn: (tutorialQnId: number) => {
+      return TutorialAPI.deleteTutorialQuestion(tutorialQnId);
+    },
+
+    onSuccess: async (data) => {
+      setGlobalTutorial(data.tutorial);
+      setGlobalTutorialQn(null);
+      Toasts.successToast(data.message);
+    },
+  });
+
   return {
     createTutorialMutateAsync,
     isCreatingTutorial,
@@ -142,6 +157,8 @@ const useTutorial = () => {
     deleteTutorialMutateAsync,
     isFetchingTutorials,
     tutorials,
+    deleteTutorialQnMutateAsync,
+    isDeletingTutorialQn,
   };
 };
 
